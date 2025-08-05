@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-Пила - Разработка программного обеспечения | ИП Стратий Дмитрий Максимович</title>
+    <meta name="description" content="Разработка программного обеспечения под ключ от ИП Стратий Дмитрий Максимович. Системное ПО, веб-приложения, базы данных. Тариф: 1 секунда = 200 рублей.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233B82F6'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cpolyline points='10,9 9,9 8,9'/%3E%3C/svg%3E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3B82F6;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #3B82F6;
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card h3 {
+            color: #3B82F6;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .pricing {
+            background: #3B82F6;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .pricing h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing p {
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #3B82F6;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 80px 0;
+            background: #f9fafb;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-group {
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .checkbox-item label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-item a {
+            color: #3B82F6;
+            text-decoration: none;
+        }
+
+        .checkbox-item a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: #3B82F6;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-button:hover:not(:disabled) {
+            background: #2563eb;
+        }
+
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .status-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            display: block;
+        }
+        
+        .status-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+            display: block;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .payment-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            background: #f3f4f6;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem auto;
+            color: #6b7280;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .qr-placeholder small {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .payment-info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .payment-info-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .lock-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+
+        .payment-info-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .payment-description {
+            margin-bottom: 2rem;
+        }
+
+        .payment-description p {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .rate-highlight {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            color: #1e40af;
+        }
+
+        .refund-info {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .refund-info h4 {
+            color: #374151;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .refund-info p {
+            color: #6b7280;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .refund-info a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .refund-info a:hover {
+            text-decoration: underline;
+        }
+
+        .qr-code-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .sbp-logo-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .sbp-logo {
+            width: 140px;
+            height: auto;
+        }
+
+        .payment-purpose {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .payment-purpose p {
+            margin: 0;
+            color: #92400e;
+        }
+
+        .payment-notice {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .payment-notice p {
+            margin: 0;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .payment-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .payment-info-card,
+            .qr-code-card {
+                padding: 1.5rem;
+            }
+
+            .sbp-logo {
+                width: 120px;
+            }
+
+            .qr-placeholder {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        /* Legal Sections */
+        .legal-section {
+            padding: 60px 0;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .legal-content h2 {
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        .legal-content h3 {
+            margin: 2rem 0 1rem;
+            color: #374151;
+        }
+
+        .legal-content p,
+        .legal-content li {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .legal-content ul {
+            padding-left: 2rem;
+        }
+
+        .requisites {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #3B82F6;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                margin: 0 1rem;
+                padding: 2rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section spacing */
+        section {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">IT-Пила</a>
+            <ul class="nav-links">
+                <li><a href="#order">Заявка</a></li>
+                <li><a href="#payment">Оплата</a></li>
+                <li><a href="#oferta">Оферта</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Разработка программного обеспечения под ключ</h1>
+            <p class="subtitle">от ИП Стратий Дмитрий Максимович</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Системное ПО</h3>
+                    <p>Разработка системного программного обеспечения под ваши задачи</p>
+                </div>
+                <div class="service-card">
+                    <h3>Веб-приложения</h3>
+                    <p>Создание современных веб-сайтов и веб-приложений</p>
+                </div>
+                <div class="service-card">
+                    <h3>Базы данных</h3>
+                    <p>Проектирование и разработка баз данных любой сложности</p>
+                </div>
+                <div class="service-card">
+                    <h3>Адаптация ИТ-продуктов</h3>
+                    <p>Модификация и адаптация существующих решений</p>
+                </div>
+            </div>
+
+            <div class="pricing">
+                <h3>1 секунда работы = 10 рублей</h3>
+                <p>Минимальная сумма предоплаты определяется клиентом</p>
+            </div>
+
+            <a href="#order" class="cta-button">Оформить заявку</a>
+        </div>
+    </section>
+
+    <!-- Order Form Section -->
+    <section id="order" class="form-section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Оформить заявку</h2>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="name">Имя *</label>
+                        <input type="text" id="name" name="name" placeholder="Ваше имя" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Описание задачи *</label>
+                        <textarea id="message" name="message" placeholder="Опишите задачу" required></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="agree" required>
+                            <label for="agree">Я ознакомлен(а) с <a href="#oferta" target="_blank">публичной офертой</a> и даю согласие на обработку персональных данных</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">Отправить заявку</button>
+                </form>
+                
+                <div id="status" class="status-message"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment" class="payment-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Оплата услуг</h2>
+            <p style="text-align: center; margin-bottom: 3rem; color: #6b7280;">Внесите предоплату за услуги разработки программного обеспечения</p>
+            
+            <div class="payment-grid">
+                <!-- Payment Info Block -->
+                <div class="payment-info-card">
+                    <div class="payment-info-header">
+                        <span class="lock-icon">🔒</span>
+                        <h3>Оплата и возврат</h3>
+                    </div>
+                    
+                    <div class="payment-description">
+                        <p>Вы можете внести предоплату за услуги в удобной для вас сумме, отталкиваясь от базовой ставки:</p>
+                        <div class="rate-highlight">
+                            💰 <strong>1 секунда работы = 10 рублей</strong>
+                        </div>
+                        <p>Оплата производится через СБП — Систему быстрых платежей — по QR-коду справа.<br>
+                        Платёж зачисляется моментально. После оплаты мы связываемся с вами и уточняем задачу.</p>
+                    </div>
+                    
+                    <div class="refund-info">
+                        <h4>📌 Возврат средств:</h4>
+                        <p>Возврат средств возможен, если услуга не была оказана (не начаты работы).<br>
+                        Если работа началась, возврат возможен только за неиспользованное время по согласованию сторон.<br>
+                        Для запроса возврата напишите на email: <a href="mailto:dmitriq414stratij@gmail.com">dmitriq414stratij@gmail.com</a></p>
+                    </div>
+                </div>
+                
+                <!-- QR Code Block -->
+                <div class="qr-code-card">
+                    <div class="sbp-logo-container">
+                        <a href="https://logo-teka.com/sbp/">
+                            <img src="https://logo-teka.com/wp-content/uploads/2025/06/sbp-logo.png" alt="PNG logo СБП" class="sbp-logo">
+                        </a>
+                    </div>
+                    
+                    <div class="qr-placeholder">
+                        QR-код СБП<br>
+                        <small>(будет добавлен позже)</small>
+                    </div>
+                    
+                    <div class="payment-purpose">
+                        <p><strong>🧾 Назначение платежа:</strong><br>
+                        «Оплата услуг по разработке ПО по оферте от 14.07.2025, it-pila.ru»</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-notice">
+                <p><strong>Совершая оплату, вы принимаете условия публичной оферты.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal Documents -->
+    <section id="oferta" class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>Публичная оферта на оказание ИТ-услуг</h2>
+                
+                <p>Индивидуальный предприниматель Стратий Дмитрий Максимович, ИНН 615427256704, ОГРНИП 324619600218940, действующий на основании государственной регистрации и патентной системы налогообложения, публикует настоящую оферту для физических лиц-резидентов РФ.</p>
+
+                <h3>1. Предмет договора</h3>
+                <p>Исполнитель оказывает услуги по:</p>
+                <ul>
+                    <li>разработке системного и прикладного программного обеспечения;</li>
+                    <li>созданию, адаптации и модификации веб-сайтов, баз данных и других компонентов ИТ-инфраструктуры.</li>
+                </ul>
+
+                <h3>2. Порядок заключения договора</h3>
+                <p>Оферта считается акцептованной в момент оплаты услуги через QR-код или другими доступными способами на сайте.</p>
+
+                <h3>3. Стоимость услуг</h3>
+                <p>Услуги тарифицируются по времени:</p>
+                <div class="pricing">
+                    <h3>1 секунда работы = 10 рублей</h3>
+                </div>
+                <p>Минимальная сумма предоплаты определяется клиентом исходя из объема задачи.</p>
+
+                <h3>4. Оплата и возврат</h3>
+                <p>Оплата осуществляется по QR-коду на сайте. Возврат возможен при невозможности оказания услуги.</p>
+
+                <h3>5. Ответственность сторон</h3>
+                <p>Исполнитель обязуется выполнить работу в разумные сроки. Заказчик обязуется предоставить всю необходимую информацию.</p>
+
+                <h3>6. Реквизиты исполнителя</h3>
+                <div class="requisites">
+ИП СТРАТИЙ ДМИТРИЙ МАКСИМОВИЧ<br>
+ИНН: 615427256704<br>
+ОГРНИП: 324619600218940<br>
+Юридический адрес: г. Таганрог, ул. Сергея Лозо, 5-3, кв. 78<br>
+Email: dmitriq414stratij@gmail.com<br>
+Телефон: +7 (900) 123-21-46<br>
+Р/с: 40802810652740007637<br>
+Банк: ЮГО-ЗАПАДНЫЙ БАНК ПАО СБЕРБАНК<br>
+БИК: 046015602
+                </div>
+
+                <p><strong>Дата публикации оферты: 14.07.2025</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="privacy" class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>Политика конфиденциальности</h2>
+                
+                <ol>
+                    <li>Все данные, передаваемые через сайт it-pila.ru (ФИО, email, описание заказа), обрабатываются ИП Стратий Дмитрий Максимович в соответствии с ФЗ-152 «О персональных данных».</li>
+                    <li>Данные не передаются третьим лицам без согласия клиента.</li>
+                    <li>Используются только для связи с клиентом, оказания и подтверждения услуги, отправки квитанции.</li>
+                    <li>Хранение — на защищённых серверах, срок — не более 3 лет.</li>
+                    <li>По вопросам конфиденциальности: dmitriq414stratij@gmail.com</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section id="consent" class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <h2>Согласие на обработку персональных данных</h2>
+                
+                <p>Я, заполняя формы на сайте https://it-pila.ru, даю согласие ИП Стратий Дмитрий Максимович, ИНН 615427256704, на обработку моих персональных данных: ФИО, email, описание запроса, IP-адрес.</p>
+                
+                <p><strong>Цель</strong> — получение услуг, обратная связь, выдача квитанций.</p>
+                <p>Данные не передаются третьим лицам без моего согласия.</p>
+                <p><strong>Срок хранения:</strong> до момента отзыва.</p>
+                <p><strong>Email для связи:</strong> dmitriq414stratij@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>IT-Пила</h3>
+                    <p>Разработка программного обеспечения под ключ от ИП Стратий Дмитрий Максимович</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>Email: dmitriq414stratij@gmail.com</p>
+                    <p>Телефон: +7 (900) 123-21-46</p>
+                    <p>Адрес: г. Таганрог, ул. Сергея Лозо, 5-3, кв. 78</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Реквизиты</h3>
+                    <p>ИНН: 615427256704</p>
+                    <p>ОГРНИП: 324619600218940</p>
+                    <p>Р/с: 40802810652740007637</p>
+                    <p>БИК: 046015602</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 ИП Стратий Дмитрий Максимович. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const statusDiv = document.getElementById('status');
+
+            fetch('https://script.google.com/macros/s/AKfycbxn_pE4HhKJJBF6997ZhOWC3bW10O6OBGWjpQK5t0bey5kuQT76DqmdelSRoSKOWp604Q/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                statusDiv.className = 'status-message success';
+                statusDiv.innerText = 'Спасибо! Ваша заявка отправлена.';
+                this.reset();
+                updateSubmitButton();
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            })
+            .catch(() => {
+                statusDiv.className = 'status-message error';
+                statusDiv.innerText = 'Ошибка отправки. Попробуйте позже.';
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form validation - enable submit button only when checkboxes are checked
+        const checkbox = document.querySelector('input[type="checkbox"][required]');
+        const submitButton = document.querySelector('.submit-button');
+        
+        function updateSubmitButton() {
+            submitButton.disabled = !checkbox.checked;
+        }
+        
+        checkbox.addEventListener('change', updateSubmitButton);
+        
+        // Initial check
+        updateSubmitButton();
+    </script>
+</body>
+</html>
